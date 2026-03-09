@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Muhammad Usman | Creative Designer & IT Expert</title>
+    
+    <meta name="description" content="Portfolio of Muhammad Usman - Graphic Designer and IT Infrastructure Manager.">
+    
+    <!-- Dependencies -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        :root {
+            --accent: #2563eb;
+            --bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; /* Custom cursor used */
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            color: #0f172a;
+            overflow-x: hidden;
+            width: 100vw;
+        }
+
+        /* 3D Perspective Container */
+        .master-container {
+            perspective: 2000px;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        .section-3d {
+            transform-style: preserve-3d;
+            will-change: transform, opacity;
+        }
+
+        /* Custom Cursor */
+        #cursor-dot {
+            width: 8px; height: 8px;
+            background: var(--accent);
+            position: fixed; border-radius: 50%;
+            pointer-events: none; z-index: 10000;
+        }
+        #cursor-outline {
+            width: 40px; height: 40px;
+            border: 2px solid var(--accent);
+            position: fixed; border-radius: 50%;
+            pointer-events: none; z-index: 9999;
+            transition: transform 0.15s ease-out, opacity 0.3s;
+        }
+
+        /* 3D Floating Objects */
+        .float-obj {
+            position: absolute;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(60px);
+            opacity: 0.15;
+            border-radius: 50%;
+        }
+
+        /* Glassmorphism */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Hide cursor on mobile */
+        @media (max-width: 1024px) {
+            #cursor-dot, #cursor-outline { display: none; }
+            * { cursor: auto !important; }
+        }
+
+        .text-reveal {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        }
+
+        .nav-link-anim {
+            position: relative;
+        }
+        .nav-link-anim::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0;
+            width: 0; height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+        .nav-link-anim:hover::after { width: 100%; }
+
+        /* Scroll Progress Bar */
+        .progress-wrap {
+            position: fixed;
+            right: 30px; top: 50%;
+            transform: translateY(-50%);
+            height: 200px; width: 2px;
+            background: rgba(0,0,0,0.05);
+            z-index: 100;
+        }
+        .progress-bar {
+            width: 100%; height: 0%;
+            background: var(--accent);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Cursor Elements -->
+    <div id="cursor-dot"></div>
+    <div id="cursor-outline"></div>
+
+    <!-- Scroll Progress -->
+    <div class="progress-wrap hidden md:block">
+        <div class="progress-bar" id="scroll-p"></div>
+    </div>
+
+    <!-- 3D Environment Decorations -->
+    <div class="float-obj bg-blue-600 w-96 h-96 -top-20 -left-20 animate-pulse"></div>
+    <div class="float-obj bg-purple-600 w-80 h-80 top-1/2 -right-20"></div>
+
+    <!-- Nav -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-6">
+        <div class="max-w-7xl mx-auto flex justify-between items-center glass-card rounded-3xl px-8 py-4">
+            <a href="#" class="text-2xl font-black tracking-tighter italic">MU.</a>
+            
+            <div class="hidden md:flex space-x-8 text-xs font-bold uppercase tracking-widest">
+                <a href="#about" class="nav-link-anim">Profile</a>
+                <a href="#skills" class="nav-link-anim">Skills</a>
+                <a href="#experience" class="nav-link-anim">Experience</a>
+                <a href="#contact" class="px-5 py-2 bg-black text-white rounded-full hover:bg-blue-600 transition-colors">Contact</a>
+            </div>
+
+            <a href="https://wa.me/923004064716" class="md:hidden p-2 bg-green-500 text-white rounded-full">
+                <i data-lucide="message-circle"></i>
+            </a>
+        </div>
+    </nav>
+
+    <div class="master-container">
+        
+        <!-- HERO SECTION -->
+        <section id="hero" class="min-h-screen flex flex-col justify-center items-center px-6 relative overflow-hidden section-3d">
+            <div class="max-w-5xl text-center z-10">
+                <div class="flex justify-center mb-8">
+                    <span class="px-4 py-2 bg-white border border-gray-100 rounded-2xl shadow-sm flex items-center gap-2 text-xs font-bold text-gray-400">
+                        <span class="w-2 h-2 bg-green-500 rounded-full"></span> 
+                        Available For Creative Projects
+                    </span>
+                </div>
+
+                <h1 class="text-6xl md:text-[120px] font-black leading-[0.85] tracking-tighter mb-10">
+                    <span class="block text-reveal overflow-hidden">DESIGNING</span>
+                    <span class="block text-reveal overflow-hidden text-blue-600">FUTURES.</span>
+                </h1>
+
+                <p class="text-lg md:text-2xl text-gray-500 max-w-2xl mx-auto mb-12 font-medium">
+                    Muhammad Usman — Senior Graphics & UI/UX Expert bridging the gap between imagination and production.
+                </p>
+
+                <div class="flex flex-wrap justify-center gap-6">
+                    <a href="#contact" class="group relative px-10 py-5 bg-black text-white rounded-2xl font-bold overflow-hidden transition-all hover:scale-105">
+                        <span class="relative z-10">Start a Project</span>
+                        <div class="absolute inset-0 bg-blue-600 translate-y-full group-hover:translate-y-0 transition-transform"></div>
+                    </a>
+                    <a href="mailto:usman19673@gmail.com" class="px-10 py-5 border-2 border-black rounded-2xl font-bold hover:bg-black hover:text-white transition-all">
+                        Email Me
+                    </a>
+                </div>
+            </div>
+
+            <!-- Floating 3D Icon Elements (Parallax) -->
+            <div class="absolute top-1/4 left-10 opacity-10 md:opacity-100 hero-parallax" data-speed="2">
+                <i data-lucide="figma" class="w-16 h-16 text-purple-500"></i>
+            </div>
+            <div class="absolute bottom-1/4 right-10 opacity-10 md:opacity-100 hero-parallax" data-speed="-2">
+                <i data-lucide="layers" class="w-20 h-20 text-blue-500"></i>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section id="about" class="py-32 px-6 section-3d">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid lg:grid-cols-2 gap-20 items-center">
+                    <div class="relative group">
+                        <div class="absolute -inset-4 bg-blue-600 rounded-[3rem] opacity-20 group-hover:opacity-40 transition-opacity blur-2xl"></div>
+                        <img src="https://i.ibb.co/X0K7x6h/14.jpg" alt="Usman" class="relative rounded-[2.5rem] w-full object-cover shadow-2xl transition-transform duration-700 group-hover:scale-[1.02]">
+                        <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-white glass-card rounded-3xl p-6 hidden md:block">
+                            <p class="text-4xl font-black text-blue-600">16</p>
+                            <p class="text-xs font-bold uppercase text-gray-400">Years of Energy</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h2 class="text-4xl md:text-6xl font-black mb-8 tracking-tighter">About My <span class="text-blue-600">Vision</span></h2>
+                        <div class="space-y-6 text-lg text-gray-600 leading-relaxed">
+                            <p>I belong to Talagang, Pakistan. Currently, I am a dedicated 11th-grade student at Allied Science College, specializing in Computer Science.</p>
+                            <p>My journey is fueled by a passion for Arts and Book reading (currently exploring <span class="text-black font-bold">"Steal Like An Artist"</span>). I am building my career as a professional Computer Operations Manager and UI/UX expert.</p>
+                            <div class="grid grid-cols-2 gap-6 pt-6">
+                                <div class="bg-gray-50 p-6 rounded-2xl">
+                                    <h4 class="font-black text-blue-600">Creative</h4>
+                                    <p class="text-sm">Logo & Visual Identity</p>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-2xl">
+                                    <h4 class="font-black text-blue-600">Technical</h4>
+                                    <p class="text-sm">IT & Infrastructure</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILLS SECTION (Interactive Cloud) -->
+        <section id="skills" class="py-32 px-6 bg-gray-950 text-white rounded-[4rem] section-3d mx-4">
+            <div class="max-w-6xl mx-auto text-center mb-20">
+                <h2 class="text-5xl font-black tracking-tighter mb-4">The Tech Stack</h2>
+                <p class="text-gray-400">Professional tools I master daily.</p>
+            </div>
+
+            <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Skill 1 -->
+                <div class="skill-card bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-blue-600 transition-all group">
+                    <i data-lucide="brush" class="w-10 h-10 mb-6 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-xl font-bold">Graphic Design</h3>
+                    <p class="text-sm text-gray-400 mt-2">PS, AI, Canva</p>
+                </div>
+                <!-- Skill 2 -->
+                <div class="skill-card bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-blue-600 transition-all group">
+                    <i data-lucide="layout-template" class="w-10 h-10 mb-6 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-xl font-bold">UI/UX Design</h3>
+                    <p class="text-sm text-gray-400 mt-2">Figma, Prototype</p>
+                </div>
+                <!-- Skill 3 -->
+                <div class="skill-card bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-blue-600 transition-all group">
+                    <i data-lucide="terminal" class="w-10 h-10 mb-6 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-xl font-bold">Programming</h3>
+                    <p class="text-sm text-gray-400 mt-2">Python, JS, HTML/CSS</p>
+                </div>
+                <!-- Skill 4 -->
+                <div class="skill-card bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-blue-600 transition-all group">
+                    <i data-lucide="server" class="w-10 h-10 mb-6 group-hover:scale-110 transition-transform"></i>
+                    <h3 class="text-xl font-bold">IT Operations</h3>
+                    <p class="text-sm text-gray-400 mt-2">Microsoft Office Expert</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXPERIENCE & EDUCATION -->
+        <section id="experience" class="py-32 px-6 section-3d">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-20">
+                    <div>
+                        <h2 class="text-4xl font-black mb-12 flex items-center gap-4">
+                            <span class="w-10 h-1 bg-blue-600"></span> Career
+                        </h2>
+                        <div class="space-y-12">
+                            <div class="relative pl-8 border-l-2 border-gray-100">
+                                <div class="absolute -left-[9px] top-0 w-4 h-4 bg-blue-600 rounded-full"></div>
+                                <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">2025 — Present</span>
+                                <h4 class="text-2xl font-black mt-2">IT Infrastructure Manager</h4>
+                                <p class="text-blue-600 font-bold mb-4">HyBox (hybox.netlify.app)</p>
+                                <p class="text-gray-500">Managing critical systems and optimizing digital touchpoints for high-traffic web applications.</p>
+                            </div>
+                            <div class="relative pl-8 border-l-2 border-gray-100">
+                                <div class="absolute -left-[9px] top-0 w-4 h-4 bg-gray-200 rounded-full"></div>
+                                <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Certification</span>
+                                <h4 class="text-2xl font-black mt-2">Computer Operator</h4>
+                                <p class="text-gray-500">Infotech-2025</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h2 class="text-4xl font-black mb-12 flex items-center gap-4">
+                            <span class="w-10 h-1 bg-blue-600"></span> Studies
+                        </h2>
+                        <div class="space-y-12">
+                            <div class="bg-gray-50 p-8 rounded-3xl border-l-8 border-blue-600">
+                                <span class="text-xs font-bold text-gray-400">2025 — PRESENT</span>
+                                <h4 class="text-xl font-black mt-2">First Year FSc (Pre-Eng)</h4>
+                                <p class="text-gray-500">Allied Science College Multan Khurd</p>
+                            </div>
+                            <div class="bg-gray-50 p-8 rounded-3xl border-l-8 border-gray-200">
+                                <span class="text-xs font-bold text-gray-400">2023 — 2025</span>
+                                <h4 class="text-xl font-black mt-2">SSC (Science)</h4>
+                                <p class="text-gray-500">Allied Science College Multan Khurd</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section id="contact" class="py-32 px-6 section-3d">
+            <div class="max-w-6xl mx-auto">
+                <div class="bg-blue-600 rounded-[4rem] p-12 md:p-24 text-white text-center relative overflow-hidden">
+                    <!-- 3D Decor inside contact -->
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+                    
+                    <h2 class="text-5xl md:text-8xl font-black tracking-tighter mb-8">LETS TALK<span class="text-black">.</span></h2>
+                    <p class="text-xl md:text-2xl text-blue-100 mb-16 max-w-xl mx-auto">Ready to level up your brand? Contact me directly via WhatsApp or Email.</p>
+                    
+                    <div class="flex flex-wrap justify-center gap-8">
+                        <a href="https://wa.me/923004064716" class="flex items-center gap-4 bg-white text-black px-10 py-6 rounded-3xl font-black text-xl hover:scale-105 transition-transform shadow-2xl">
+                            <i data-lucide="message-circle" class="text-green-500"></i> WhatsApp
+                        </a>
+                        <a href="mailto:usman19673@gmail.com" class="flex items-center gap-4 bg-black text-white px-10 py-6 rounded-3xl font-black text-xl hover:scale-105 transition-transform shadow-2xl">
+                            <i data-lucide="mail" class="text-blue-600"></i> Email Me
+                        </a>
+                    </div>
+
+                    <p class="mt-20 text-blue-200 font-bold uppercase tracking-widest flex items-center justify-center gap-2">
+                        <i data-lucide="map-pin" class="w-4 h-4"></i> Talagang, Pakistan
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="py-12 border-t border-gray-100">
+            <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+                <p class="font-black text-2xl tracking-tighter italic">USMAN.</p>
+                <div class="text-center md:text-right">
+                    <p class="text-gray-400 font-bold text-sm tracking-widest uppercase">© 2026 HyBox Creative</p>
+                    <p class="text-xs text-gray-300 mt-1">Designed with precision by Muhammad Usman</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // Init Lucide Icons
+        lucide.createIcons();
+
+        // Custom Cursor Logic
+        const dot = document.getElementById('cursor-dot');
+        const outline = document.getElementById('cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
+            gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.1 });
+            gsap.to(outline, { x: e.clientX - 16, y: e.clientY - 16, duration: 0.3 });
+        });
+
+        // Interactive Cursor Hover
+        document.querySelectorAll('a, button, .skill-card').forEach(el => {
+            el.addEventListener('mouseenter', () => outline.style.transform = 'scale(2.5)');
+            el.addEventListener('mouseleave', () => outline.style.transform = 'scale(1)');
+        });
+
+        // GSAP Scroll Config
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Progress Bar
+        gsap.to("#scroll-p", {
+            height: "100%",
+            scrollTrigger: { scrub: 0.2 }
+        });
+
+        // 3D Reveal Animations
+        const sections = document.querySelectorAll('.section-3d');
+        sections.forEach(section => {
+            gsap.fromTo(section, 
+                { rotationX: 10, opacity: 0, y: 50 },
+                {
+                    rotationX: 0, opacity: 1, y: 0,
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top bottom-=100",
+                        end: "top center",
+                        scrub: 1
+                    }
+                }
+            );
+        });
+
+        // Hero Parallax
+        document.addEventListener("mousemove", (e) => {
+            const x = (window.innerWidth - e.pageX * 2) / 100;
+            const y = (window.innerHeight - e.pageY * 2) / 100;
+            
+            document.querySelectorAll('.hero-parallax').forEach(layer => {
+                const speed = layer.getAttribute('data-speed');
+                gsap.to(layer, {
+                    x: x * speed,
+                    y: y * speed,
+                    duration: 1,
+                    ease: "power2.out"
+                });
+            });
+        });
+
+        // Text Reveal Animation
+        gsap.from(".text-reveal", {
+            y: 100,
+            stagger: 0.2,
+            duration: 1.5,
+            ease: "power4.out",
+            delay: 0.5
+        });
+
+        // Skill Card 3D Tilt
+        document.querySelectorAll('.skill-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                gsap.to(card, {
+                    rotationY: x * 20,
+                    rotationX: -y * 20,
+                    scale: 1.05,
+                    transformPerspective: 1000,
+                    ease: "power2.out"
+                });
+            });
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, { rotationY: 0, rotationX: 0, scale: 1, duration: 0.5 });
+            });
+        });
+
+        console.log("System Initialized | Usman 3D Engine Active");
+    </script>
+</body>
+</html>
